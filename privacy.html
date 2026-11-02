@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediCappbinet! — Informativa sulla Privacy / Privacy Policy</title>
+<meta name="description" content="Informativa sulla Privacy di MediCappbinet!. / MediCappbinet! Privacy Policy.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F3F8F7;
+    --paper-raised: #FFFFFF;
+    --ink: #1B2B29;
+    --ink-soft: #3F5552;
+    --silver-dim: #5C706D;
+    --petrol: #0F7F74;
+    --brass: #0F7F74;
+    --autok-blue: #0F7F74;
+    --crease: rgba(15,127,116,0.25);
+    --radius: 3px;
+    --max-w: 760px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Sottile texture, versione scura */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(2,148,137,0.03) 0, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(2,148,137,0.035) 0, transparent 45%);
+    z-index: 0;
+  }
+
+  .wrap {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--brass);
+    font-weight: 500;
+  }
+
+  /* ---------- Divisore firma ---------- */
+  .fold-divider {
+    position: relative;
+    height: 46px;
+    max-width: var(--max-w);
+    margin: 0 auto;
+  }
+  .fold-divider::before {
+    content: "";
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    top: 50%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--crease) 12%, var(--crease) 88%, transparent);
+  }
+  .fold-divider::after {
+    content: "";
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    top: calc(50% + 1px);
+    height: 6px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.15), transparent);
+    filter: blur(1px);
+  }
+
+  /* ---------- Header / nav minima ---------- */
+  header {
+    padding: 28px 0 0;
+  }
+  .nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brandmark {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 26px;
+  }
+  .brandmark img { width: 44px; height: 44px; }
+
+  .lang-switch {
+    display: flex;
+    gap: 2px;
+  }
+  .lang-switch button {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    border: 1px solid var(--crease);
+    background: var(--paper-raised);
+    color: var(--ink-soft);
+    padding: 7px 11px 6px;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .lang-switch button:first-child { border-radius: var(--radius) 0 0 var(--radius); }
+  .lang-switch button:last-child { border-radius: 0 var(--radius) var(--radius) 0; }
+  .lang-switch button + button { border-left: none; }
+  .lang-switch button[aria-pressed="true"] {
+    color: var(--paper-raised);
+    background: var(--ink);
+    border-color: var(--ink);
+    z-index: 1;
+  }
+  .lang-switch button:hover:not([aria-pressed="true"]) {
+    border-color: var(--petrol);
+    color: var(--petrol);
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 64px 0 8px;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 32px;
+    align-items: center;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(34px, 5.4vw, 50px);
+    line-height: 1.06;
+    margin: 14px 0 18px;
+    letter-spacing: -0.01em;
+  }
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--petrol);
+  }
+  .hero p.lede {
+    font-size: 17.5px;
+    color: var(--ink-soft);
+    max-width: 46ch;
+    margin: 0;
+  }
+  .hero-art {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .hero-art::before {
+    content: "";
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    background: radial-gradient(circle, rgba(2,148,137,0.18), transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-art img {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    filter: drop-shadow(0 18px 26px rgba(0,0,0,0.18));
+  }
+
+  .badge-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 26px;
+    flex-wrap: wrap;
+  }
+  .store-badge-row {
+    margin-top: 20px;
+    padding: 14px 0;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .store-badge-row img {
+    display: block;
+    filter: drop-shadow(0 6px 14px rgba(0,0,0,0.18));
+  }
+  .qr-code {
+    width: 84px;
+    height: 84px;
+    border-radius: 8px;
+    border: 1px solid var(--crease);
+  }
+  .badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-soft);
+    border: 1px solid var(--crease);
+    background: var(--paper-raised);
+    padding: 6px 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .badge::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--petrol);
+    display: inline-block;
+  }
+
+  /* ---------- Sezione "come funziona" ---------- */
+  section { padding: 8px 0 30px; }
+  section h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 26px;
+    margin: 4px 0 26px;
+  }
+
+  .steps {
+    display: grid;
+    gap: 0;
+    counter-reset: step;
+  }
+  .step {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 18px;
+    padding: 18px 0;
+    border-top: 1px solid var(--crease);
+  }
+  .step:last-child { border-bottom: 1px solid var(--crease); }
+  .step-num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 26px;
+    color: var(--brass);
+    line-height: 1;
+    padding-top: 2px;
+  }
+  .step h3 {
+    margin: 0 0 4px;
+    font-size: 16.5px;
+    font-weight: 600;
+  }
+  .step p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 15.5px;
+  }
+
+  /* ---------- Blocchi di funzione (testo semplice) ---------- */
+  .feature-block p {
+    color: var(--ink-soft);
+    font-size: 15.5px;
+    max-width: 62ch;
+    margin: 0;
+  }
+  .feature-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 11px;
+  }
+  .feature-list li {
+    padding-left: 20px;
+    position: relative;
+    color: var(--ink-soft);
+    font-size: 15.5px;
+  }
+  .feature-list li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--brass);
+  }
+
+  /* ---------- Documenti: card con angolo piegato ---------- */
+  .doc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .doc-card {
+    position: relative;
+    background: var(--paper-raised);
+    border: 1px solid var(--crease);
+    border-radius: var(--radius);
+    padding: 22px 20px 20px;
+    text-decoration: none;
+    color: var(--ink);
+    display: block;
+    overflow: hidden;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .doc-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.18);
+  }
+  /* Angolo piegato — dog-ear, eco diretta dell'origami del logo */
+  .doc-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 22px 22px 0;
+    border-color: transparent var(--paper) transparent transparent;
+    filter: drop-shadow(-2px 2px 2px rgba(0,0,0,0.25));
+    transition: border-width 0.18s ease;
+  }
+  .doc-card:hover::after {
+    border-width: 0 28px 28px 0;
+  }
+  .doc-kicker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--petrol);
+    margin: 0 0 8px;
+  }
+  .doc-card h3 {
+    margin: 0 0 6px;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 18.5px;
+  }
+  .doc-card span.dl {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    padding: 30px 0 60px;
+  }
+  footer .foot-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  footer p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+  footer a {
+    color: var(--petrol);
+    text-decoration: none;
+    border-bottom: 1px solid var(--crease);
+  }
+  footer a:hover { border-color: var(--petrol); }
+  .foot-mono {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--silver-dim);
+  }
+
+  [data-i18n] { display: none; }
+  [data-i18n].active { display: revert; }
+  /* .doc-card è un <a>: "revert" tornerebbe a inline, serve display:block esplicito */
+  .doc-card[data-i18n].active { display: block; }
+
+  @media (max-width: 640px) {
+    .hero { grid-template-columns: 1fr; padding-top: 40px; }
+    .hero-art { order: -1; }
+    .hero-art img { width: 128px; height: 128px; }
+    .hero-art::before { width: 160px; height: 160px; }
+    .doc-grid { grid-template-columns: 1fr; }
+    .nav-row { gap: 12px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+
+  .soon {
+    display: inline-block;
+    margin-top: 22px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: var(--petrol);
+    border: 1px dashed var(--petrol);
+    padding: 9px 14px;
+    border-radius: 3px;
+  }
+  .brandmark .wordmark { letter-spacing: 0.01em; }
+  .icona-app { width: 44px; height: 44px; border-radius: 22%; }
+  .icona-hero { border-radius: 22%; }
+
+  .legal { padding: 24px 0 48px; max-width: 760px; }
+  .legal h1 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 2rem; line-height: 1.2; margin: 16px 0 8px; }
+  .legal h2 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.35rem; margin: 32px 0 8px; }
+  .legal p, .legal li { color: var(--ink-soft); line-height: 1.7; }
+  .legal p { margin: 10px 0; }
+  .legal em { color: var(--silver-dim); }
+  .legal code { font-family: 'IBM Plex Mono', monospace; font-size: 0.9em; }
+  .legal a, .back a { color: var(--autok-blue); }
+  .back { margin-top: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="nav-row">
+      <div class="brandmark">
+        <img src="assets/favicon.png" alt="" class="icona-app">
+        <span class="wordmark">MediCappbinet!</span>
+      </div>
+      <div class="lang-switch" role="group" aria-label="Lingua / Language">
+        <button data-set-lang="it" aria-pressed="true">IT</button>
+        <button data-set-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </header>
+  <main class="legal">
+    <div data-i18n="it" class="active">
+<h1>PRIVACY POLICY di MediCappbinet!</h1>
+<p>Ultimo aggiornamento: 2 novembre 2026</p>
+<h2>1. Chi tratta i dati</h2>
+<p>L&#x27;app è sviluppata da AVLAM App. Contatto: sviluppo.app.am@gmail.com.</p>
+<h2>2. Quali dati inserisci</h2>
+<p>Nomi delle persone, farmaci, confezioni e scadenze, prescrizioni e terapie, dosi assunte, medici, visite, esami e vaccini. Sono dati relativi alla salute e li inserisci tu.</p>
+<h2>3. Dove restano i dati</h2>
+<p>Solo sul tuo telefono. L&#x27;app non ha il permesso di accedere a Internet (il foglio illustrativo si apre nel browser del telefono, fuori dall&#x27;app), non invia dati a server, non contiene pubblicità né strumenti di analisi o tracciamento. Non crea account.</p>
+<h2>4. Condivisione</h2>
+<p>L&#x27;app non invia nulla da sola. Se usi &quot;Manda al gestore&quot; è il tuo telefono a condividere il messaggio con l&#x27;app che scegli. Esiste anche una funzione facoltativa e nascosta di sincronizzazione con una cartella scelta da te: i file restano nella tua cartella e nel tuo spazio di archiviazione personale.</p>
+<h2>5. Copie di sicurezza</h2>
+<p>Le copie le crei tu e le salvi dove vuoi. Puoi proteggerle con una password; senza password chiunque trovi il file può leggerlo. Se dimentichi la password non è possibile recuperare la copia.</p>
+<h2>6. Permessi</h2>
+<p>Fotocamera (solo per leggere il codice a barre sulla scatola: nessuna immagine viene salvata o inviata), notifiche (per i promemoria), allarmi precisi (per far suonare le dosi all&#x27;ora giusta) e avvio del telefono (per riprogrammare i promemoria dopo un riavvio).</p>
+<h2>7. Persone che gestisci</h2>
+<p>Se inserisci dati di altre persone (per esempio figli o familiari), devi avere il loro consenso o la responsabilità di farlo.</p>
+<h2>8. Cancellazione</h2>
+<p>Elimina i dati dall&#x27;app oppure disinstallala: i dati sul telefono vengono rimossi. Le copie di sicurezza che hai salvato restano dove le hai messe.</p>
+<h2>9. Modifiche</h2>
+<p>Questo testo può cambiare con gli aggiornamenti dell&#x27;app; la data in alto indica l&#x27;ultima versione.</p>
+    </div>
+    <div data-i18n="en">
+<h1>PRIVACY POLICY of MediCappbinet!</h1>
+<p>Last updated: 2 November 2026</p>
+<h2>1. Who handles the data</h2>
+<p>The app is developed by AVLAM App. Contact: sviluppo.app.am@gmail.com.</p>
+<h2>2. What data you enter</h2>
+<p>Names of people, medicines, packages and expiry dates, prescriptions and therapies, doses taken, doctors, visits, exams and vaccines. This is health-related data and you enter it yourself.</p>
+<h2>3. Where the data stays</h2>
+<p>Only on your phone. The app has no Internet permission (the package leaflet opens in your phone&#x27;s browser, outside the app), sends no data to servers, and contains no ads, analytics or tracking. It creates no accounts.</p>
+<h2>4. Sharing</h2>
+<p>The app sends nothing by itself. If you use &quot;Send to the manager&quot;, your phone shares the message with the app you choose. There is also an optional, hidden folder-sync feature: the files stay in the folder you choose and in your own storage.</p>
+<h2>5. Backups</h2>
+<p>You create backups yourself and save them wherever you like. You can protect them with a password; without one, anyone who finds the file can read it. If you forget the password the backup cannot be recovered.</p>
+<h2>6. Permissions</h2>
+<p>Camera (only to read the barcode on the box: no image is saved or sent), notifications (for reminders), exact alarms (so doses ring at the right time) and boot completed (to reschedule reminders after a restart).</p>
+<h2>7. People you manage</h2>
+<p>If you enter data about other people (for example children or relatives), you must have their consent or the responsibility to do so.</p>
+<h2>8. Deletion</h2>
+<p>Delete the data in the app or uninstall it: data on the phone is removed. Backups you saved stay where you put them.</p>
+<h2>9. Changes</h2>
+<p>This text may change with app updates; the date above shows the latest version.</p>
+    </div>
+    <p class="back"><a href="index.html">&larr; MediCappbinet!</a></p>
+  </main>
+</div>
+<script>
+  (function () {
+    var buttons = document.querySelectorAll('[data-set-lang]');
+    var elements = document.querySelectorAll('[data-i18n]');
+    function setLang(lang) {
+      elements.forEach(function (el) { el.classList.toggle('active', el.getAttribute('data-i18n') === lang); });
+      buttons.forEach(function (btn) { btn.setAttribute('aria-pressed', btn.getAttribute('data-set-lang') === lang ? 'true' : 'false'); });
+      document.documentElement.setAttribute('data-lang', lang);
+      document.documentElement.setAttribute('lang', lang);
+      try { localStorage.setItem('medicappbinet-lang', lang); } catch (e) {}
+    }
+    buttons.forEach(function (btn) { btn.addEventListener('click', function () { setLang(btn.getAttribute('data-set-lang')); }); });
+    var saved = null;
+    try { saved = localStorage.getItem('medicappbinet-lang'); } catch (e) {}
+    if (saved && ['it', 'en'].indexOf(saved) !== -1) { setLang(saved); }
+  })();
+</script>
+</body>
+</html>

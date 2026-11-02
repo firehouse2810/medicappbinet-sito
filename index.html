@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediCappbinet! — L'armadietto di famiglia, sotto controllo</title>
+<meta name="description" content="MediCappbinet! è un'app per tenere in ordine i medicinali di famiglia e ricordare terapie, ricette, visite, esami e vaccini. Nessun dato lascia il tuo telefono.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F3F8F7;
+    --paper-raised: #FFFFFF;
+    --ink: #1B2B29;
+    --ink-soft: #3F5552;
+    --silver-dim: #5C706D;
+    --petrol: #0F7F74;
+    --brass: #0F7F74;
+    --autok-blue: #0F7F74;
+    --crease: rgba(15,127,116,0.25);
+    --radius: 3px;
+    --max-w: 760px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Sottile texture, versione scura */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(2,148,137,0.03) 0, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(2,148,137,0.035) 0, transparent 45%);
+    z-index: 0;
+  }
+
+  .wrap {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--brass);
+    font-weight: 500;
+  }
+
+  /* ---------- Divisore firma ---------- */
+  .fold-divider {
+    position: relative;
+    height: 46px;
+    max-width: var(--max-w);
+    margin: 0 auto;
+  }
+  .fold-divider::before {
+    content: "";
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    top: 50%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--crease) 12%, var(--crease) 88%, transparent);
+  }
+  .fold-divider::after {
+    content: "";
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    top: calc(50% + 1px);
+    height: 6px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.15), transparent);
+    filter: blur(1px);
+  }
+
+  /* ---------- Header / nav minima ---------- */
+  header {
+    padding: 28px 0 0;
+  }
+  .nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brandmark {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 26px;
+  }
+  .brandmark img { width: 44px; height: 44px; }
+
+  .lang-switch {
+    display: flex;
+    gap: 2px;
+  }
+  .lang-switch button {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    border: 1px solid var(--crease);
+    background: var(--paper-raised);
+    color: var(--ink-soft);
+    padding: 7px 11px 6px;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .lang-switch button:first-child { border-radius: var(--radius) 0 0 var(--radius); }
+  .lang-switch button:last-child { border-radius: 0 var(--radius) var(--radius) 0; }
+  .lang-switch button + button { border-left: none; }
+  .lang-switch button[aria-pressed="true"] {
+    color: var(--paper-raised);
+    background: var(--ink);
+    border-color: var(--ink);
+    z-index: 1;
+  }
+  .lang-switch button:hover:not([aria-pressed="true"]) {
+    border-color: var(--petrol);
+    color: var(--petrol);
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 64px 0 8px;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 32px;
+    align-items: center;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(34px, 5.4vw, 50px);
+    line-height: 1.06;
+    margin: 14px 0 18px;
+    letter-spacing: -0.01em;
+  }
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--petrol);
+  }
+  .hero p.lede {
+    font-size: 17.5px;
+    color: var(--ink-soft);
+    max-width: 46ch;
+    margin: 0;
+  }
+  .hero-art {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .hero-art::before {
+    content: "";
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    background: radial-gradient(circle, rgba(2,148,137,0.18), transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-art img {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    filter: drop-shadow(0 18px 26px rgba(0,0,0,0.18));
+  }
+
+  .badge-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 26px;
+    flex-wrap: wrap;
+  }
+  .store-badge-row {
+    margin-top: 20px;
+    padding: 14px 0;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .store-badge-row img {
+    display: block;
+    filter: drop-shadow(0 6px 14px rgba(0,0,0,0.18));
+  }
+  .qr-code {
+    width: 84px;
+    height: 84px;
+    border-radius: 8px;
+    border: 1px solid var(--crease);
+  }
+  .badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-soft);
+    border: 1px solid var(--crease);
+    background: var(--paper-raised);
+    padding: 6px 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .badge::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--petrol);
+    display: inline-block;
+  }
+
+  /* ---------- Sezione "come funziona" ---------- */
+  section { padding: 8px 0 30px; }
+  section h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 26px;
+    margin: 4px 0 26px;
+  }
+
+  .steps {
+    display: grid;
+    gap: 0;
+    counter-reset: step;
+  }
+  .step {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 18px;
+    padding: 18px 0;
+    border-top: 1px solid var(--crease);
+  }
+  .step:last-child { border-bottom: 1px solid var(--crease); }
+  .step-num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 26px;
+    color: var(--brass);
+    line-height: 1;
+    padding-top: 2px;
+  }
+  .step h3 {
+    margin: 0 0 4px;
+    font-size: 16.5px;
+    font-weight: 600;
+  }
+  .step p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 15.5px;
+  }
+
+  /* ---------- Blocchi di funzione (testo semplice) ---------- */
+  .feature-block p {
+    color: var(--ink-soft);
+    font-size: 15.5px;
+    max-width: 62ch;
+    margin: 0;
+  }
+  .feature-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 11px;
+  }
+  .feature-list li {
+    padding-left: 20px;
+    position: relative;
+    color: var(--ink-soft);
+    font-size: 15.5px;
+  }
+  .feature-list li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--brass);
+  }
+
+  /* ---------- Documenti: card con angolo piegato ---------- */
+  .doc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .doc-card {
+    position: relative;
+    background: var(--paper-raised);
+    border: 1px solid var(--crease);
+    border-radius: var(--radius);
+    padding: 22px 20px 20px;
+    text-decoration: none;
+    color: var(--ink);
+    display: block;
+    overflow: hidden;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .doc-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.18);
+  }
+  /* Angolo piegato — dog-ear, eco diretta dell'origami del logo */
+  .doc-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 22px 22px 0;
+    border-color: transparent var(--paper) transparent transparent;
+    filter: drop-shadow(-2px 2px 2px rgba(0,0,0,0.25));
+    transition: border-width 0.18s ease;
+  }
+  .doc-card:hover::after {
+    border-width: 0 28px 28px 0;
+  }
+  .doc-kicker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--petrol);
+    margin: 0 0 8px;
+  }
+  .doc-card h3 {
+    margin: 0 0 6px;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 18.5px;
+  }
+  .doc-card span.dl {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    padding: 30px 0 60px;
+  }
+  footer .foot-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  footer p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+  footer a {
+    color: var(--petrol);
+    text-decoration: none;
+    border-bottom: 1px solid var(--crease);
+  }
+  footer a:hover { border-color: var(--petrol); }
+  .foot-mono {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--silver-dim);
+  }
+
+  [data-i18n] { display: none; }
+  [data-i18n].active { display: revert; }
+  /* .doc-card è un <a>: "revert" tornerebbe a inline, serve display:block esplicito */
+  .doc-card[data-i18n].active { display: block; }
+
+  @media (max-width: 640px) {
+    .hero { grid-template-columns: 1fr; padding-top: 40px; }
+    .hero-art { order: -1; }
+    .hero-art img { width: 128px; height: 128px; }
+    .hero-art::before { width: 160px; height: 160px; }
+    .doc-grid { grid-template-columns: 1fr; }
+    .nav-row { gap: 12px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+
+  .soon {
+    display: inline-block;
+    margin-top: 22px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: var(--petrol);
+    border: 1px dashed var(--petrol);
+    padding: 9px 14px;
+    border-radius: 3px;
+  }
+  .brandmark .wordmark { letter-spacing: 0.01em; }
+  .icona-app { width: 44px; height: 44px; border-radius: 22%; }
+  .icona-hero { border-radius: 22%; }
+
+  .legal { padding: 24px 0 48px; max-width: 760px; }
+  .legal h1 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 2rem; line-height: 1.2; margin: 16px 0 8px; }
+  .legal h2 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.35rem; margin: 32px 0 8px; }
+  .legal p, .legal li { color: var(--ink-soft); line-height: 1.7; }
+  .legal p { margin: 10px 0; }
+  .legal em { color: var(--silver-dim); }
+  .legal code { font-family: 'IBM Plex Mono', monospace; font-size: 0.9em; }
+  .legal a, .back a { color: var(--autok-blue); }
+  .back { margin-top: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="nav-row">
+      <div class="brandmark">
+        <img src="assets/favicon.png" alt="" class="icona-app">
+        <span class="wordmark">MediCappbinet!</span>
+      </div>
+      <div class="lang-switch" role="group" aria-label="Lingua / Language">
+        <button data-set-lang="it" aria-pressed="true">IT</button>
+        <button data-set-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </header>
+  <div class="hero">
+    <div>
+      <p class="eyebrow">
+        <span data-i18n="it" class="active">Un progetto personale</span>
+        <span data-i18n="en">A personal project</span>
+      </p>
+      <h1>
+        <span data-i18n="it" class="active">L'armadietto di famiglia,<br><em>sotto controllo.</em></span>
+        <span data-i18n="en">The family medicine cabinet,<br><em>under control.</em></span>
+      </h1>
+      <p class="lede">
+        <span data-i18n="it" class="active">MediCappbinet! ti aiuta a tenere in ordine i medicinali di casa e a non dimenticare terapie, ricette, visite, esami e vaccini di tutta la famiglia, in un'unica app.</span>
+        <span data-i18n="en">MediCappbinet! helps you keep your home medicines in order and never forget the therapies, prescriptions, visits, exams and vaccines of the whole family, in one app.</span>
+      </p>
+      <p class="lede" style="margin-top: 10px; font-size: 15.5px;">
+        <span data-i18n="it" class="active">Niente account, nessuna connessione a servizi esterni: inserisci tu i dati e restano sul tuo telefono.</span>
+        <span data-i18n="en">No account, no connection to outside services: you enter the data and it stays on your phone.</span>
+      </p>
+      <div class="badge-row">
+        <span class="badge"><span data-i18n="it" class="active">I dati restano sul telefono</span>
+        <span data-i18n="en">Your data stays on your phone</span></span>
+        <span class="badge"><span data-i18n="it" class="active">Senza account</span>
+        <span data-i18n="en">No account needed</span></span>
+        <span class="badge"><span data-i18n="it" class="active">Senza pubblicità</span>
+        <span data-i18n="en">No ads</span></span>
+      </div>
+      <span class="soon">
+        <span data-i18n="it" class="active">In arrivo su Google Play</span>
+        <span data-i18n="en">Coming soon to Google Play</span>
+      </span>
+    </div>
+    <div class="hero-art">
+      <img src="assets/icon.png" alt="Icona di MediCappbinet!" class="icona-hero">
+    </div>
+  </div>
+</div>
+
+<div class="fold-divider"></div>
+
+<div class="wrap">
+  <section>
+    <h2>
+      <span data-i18n="it" class="active">Come funziona</span>
+        <span data-i18n="en">How it works</span>
+    </h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div>
+          <h3>
+            <span data-i18n="it" class="active">Aggiungi le persone e i farmaci</span>
+        <span data-i18n="en">Add people and medicines</span>
+          </h3>
+          <p>
+            <span data-i18n="it" class="active">Un solo telefono gestisce tutta la famiglia. Inserisci i farmaci con confezioni e scadenze: l'armadietto è comune a tutti.</span>
+        <span data-i18n="en">One phone manages the whole family. Enter medicines with their packages and expiry dates: the cabinet is shared by everyone.</span>
+          </p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div>
+          <h3>
+            <span data-i18n="it" class="active">Imposta le terapie</span>
+        <span data-i18n="en">Set up therapies</span>
+          </h3>
+          <p>
+            <span data-i18n="it" class="active">Ogni quante ore, a orari fissi o al bisogno: lo decidi tu, come da prescrizione medica.</span>
+        <span data-i18n="en">Every N hours, at fixed times or as needed: you decide, as prescribed by your doctor.</span>
+          </p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div>
+          <h3>
+            <span data-i18n="it" class="active">Ricevi i promemoria</span>
+        <span data-i18n="en">Get your reminders</span>
+          </h3>
+          <p>
+            <span data-i18n="it" class="active">Le dosi suonano come una sveglia, anche di notte. Segni «Preso» o «Salta» con un tocco, direttamente dalla notifica.</span>
+        <span data-i18n="en">Doses ring like an alarm, even at night. Tap «Taken» or «Skip» straight from the notification.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="fold-divider"></div>
+
+<div class="wrap">
+  <section class="feature-block">
+    <h2>
+      <span data-i18n="it" class="active">L'armadietto, sempre aggiornato</span>
+        <span data-i18n="en">The cabinet, always up to date</span>
+    </h2>
+    <p>
+      <span data-i18n="it" class="active">L'app consuma prima la confezione aperta, poi quella che scade prima, e tiene conto di quanto dura un farmaco dopo l'apertura. Ti avvisa di cosa è scaduto, cosa sta finendo e cosa conviene comprare nei prossimi 30 giorni per tutta la famiglia.</span>
+        <span data-i18n="en">The app uses the opened package first, then the one expiring first, and accounts for how long a medicine lasts once opened. It tells you what has expired, what is running low and what is worth buying in the next 30 days for the whole family.</span>
+    </p>
+  </section>
+</div>
+
+<div class="fold-divider"></div>
+
+<div class="wrap">
+  <section class="feature-block">
+    <h2>
+      <span data-i18n="it" class="active">Dosi che non si dimenticano</span>
+        <span data-i18n="en">Doses you won't forget</span>
+    </h2>
+    <p>
+      <span data-i18n="it" class="active">Per i farmaci importanti gli avvisi sono più insistenti. Per le terapie al bisogno l'app rispetta l'intervallo minimo e il massimo nelle 24 ore e ti chiede se ti serve ancora. Se la scorta è finita la dose viene registrata lo stesso.</span>
+        <span data-i18n="en">For important medicines the alerts are more insistent. For as-needed therapies the app respects the minimum interval and the daily maximum and asks whether you still need it. If stock has run out the dose is still recorded.</span>
+    </p>
+  </section>
+</div>
+
+<div class="fold-divider"></div>
+
+<div class="wrap">
+  <section class="feature-block">
+    <h2>
+      <span data-i18n="it" class="active">Visite, esami e vaccini</span>
+        <span data-i18n="en">Visits, exams and vaccines</span>
+    </h2>
+    <p>
+      <span data-i18n="it" class="active">Appuntamenti con la preparazione da fare, richiami dei vaccini e ricette in scadenza: ricevi un promemoria prima di ogni scadenza. C'è anche una rubrica dei medici.</span>
+        <span data-i18n="en">Appointments with their preparation, vaccine boosters and expiring prescriptions: you get a reminder ahead of every deadline. There is also a doctors' address book.</span>
+    </p>
+  </section>
+</div>
+
+
+<div class="fold-divider"></div>
+
+<div class="wrap">
+  <section class="feature-block">
+    <h2>
+      <span data-i18n="it" class="active">Cosa trovi dentro</span>
+        <span data-i18n="en">What's inside</span>
+    </h2>
+    <ul class="feature-list">
+      <li>
+        <span data-i18n="it" class="active">Più persone nello stesso telefono, con un colore per riconoscerle</span>
+        <span data-i18n="en">Several people on the same phone, each with a colour to tell them apart</span>
+      </li>
+      <li>
+        <span data-i18n="it" class="active">Lettura del codice sulla scatola con la fotocamera, tutto sul telefono: nessuna foto viene salvata o inviata</span>
+        <span data-i18n="en">Read the code on the box with the camera, all on the phone: no photo is saved or sent</span>
+      </li>
+      <li>
+        <span data-i18n="it" class="active">Foglio illustrativo aggiornato: l'app apre il servizio pubblico AIFA Medicinali nel browser</span>
+        <span data-i18n="en">Up-to-date package leaflet: the app opens the public AIFA Medicinali service in your browser</span>
+      </li>
+      <li>
+        <span data-i18n="it" class="active">Copia di sicurezza con password facoltativa, anche automatica ogni settimana, e ripristino su un altro telefono</span>
+        <span data-i18n="en">Backup with optional password, also automatic every week, and restore on another phone</span>
+      </li>
+      <li>
+        <span data-i18n="it" class="active">Notifiche che non svelano il nome del farmaco quando il telefono è bloccato</span>
+        <span data-i18n="en">Notifications that don't reveal the medicine's name while the phone is locked</span>
+      </li>
+      <li>
+        <span data-i18n="it" class="active">Disponibile in italiano e in inglese</span>
+        <span data-i18n="en">Available in Italian and English</span>
+      </li>
+    </ul>
+  </section>
+</div>
+
+<div class="fold-divider"></div>
+
+<div class="wrap">
+  <section class="feature-block">
+    <h2>
+      <span data-i18n="it" class="active">La tua privacy viene prima</span>
+        <span data-i18n="en">Your privacy comes first</span>
+    </h2>
+    <p>
+      <span data-i18n="it" class="active">MediCappbinet! funziona interamente offline: non ha nemmeno il permesso di accedere a Internet. Nessun account da creare, nessun dato inviato a server dello sviluppatore, nessun tracciamento. Se scegli di salvare una copia di sicurezza in una cartella o di condividere un messaggio, sei tu a deciderlo.</span>
+        <span data-i18n="en">MediCappbinet! works entirely offline: it doesn't even have permission to access the Internet. No account to create, no data sent to the developer's servers, no tracking. If you choose to save a backup in a folder or share a message, that's your decision.</span>
+    </p>
+  </section>
+</div>
+
+<div class="fold-divider"></div>
+
+<div class="wrap">
+  <section class="feature-block">
+    <h2>
+      <span data-i18n="it" class="active">Non è un dispositivo medico</span>
+        <span data-i18n="en">Not a medical device</span>
+    </h2>
+    <p>
+      <span data-i18n="it" class="active">MediCappbinet! non dà consigli medici, non fa diagnosi e non sostituisce il medico o il farmacista. Segui sempre le indicazioni del medico e il foglio illustrativo, e controlla che i dati inseriti siano corretti.</span>
+        <span data-i18n="en">MediCappbinet! gives no medical advice, makes no diagnosis and does not replace your doctor or pharmacist. Always follow your doctor's instructions and the package leaflet, and check that the data you enter is correct.</span>
+    </p>
+  </section>
+</div>
+
+
+<div class="fold-divider"></div>
+
+<div class="wrap">
+  <section>
+    <h2>
+      <span data-i18n="it" class="active">Documenti</span>
+        <span data-i18n="en">Documents</span>
+    </h2>
+    <div class="doc-grid">
+      <a class="doc-card active" data-i18n="it" href="assets/privacy_it.pdf" target="_blank" rel="noopener">
+        <p class="doc-kicker">PDF</p>
+        <h3>Informativa sulla Privacy</h3>
+        <span class="dl">↓ Scarica il PDF</span>
+      </a>
+      <a class="doc-card" data-i18n="en" href="assets/privacy_en.pdf" target="_blank" rel="noopener">
+        <p class="doc-kicker">PDF</p>
+        <h3>Privacy Policy</h3>
+        <span class="dl">↓ Download PDF</span>
+      </a>
+      <a class="doc-card active" data-i18n="it" href="assets/termini_it.pdf" target="_blank" rel="noopener">
+        <p class="doc-kicker">PDF</p>
+        <h3>Termini d'uso</h3>
+        <span class="dl">↓ Scarica il PDF</span>
+      </a>
+      <a class="doc-card" data-i18n="en" href="assets/termini_en.pdf" target="_blank" rel="noopener">
+        <p class="doc-kicker">PDF</p>
+        <h3>Terms of use</h3>
+        <span class="dl">↓ Download PDF</span>
+      </a>
+    </div>
+    <p style="margin-top:14px;font-size:14px;"><span data-i18n="it" class="active">Anche come pagine web: <a href="privacy.html">Privacy</a> · <a href="termini.html">Termini</a></span>
+        <span data-i18n="en">Also as web pages: <a href="privacy.html">Privacy</a> · <a href="termini.html">Terms</a></span></p>
+  </section>
+</div>
+
+<div class="fold-divider"></div>
+
+<div class="wrap">
+  <footer>
+    <div class="foot-row">
+      <p>
+        <span data-i18n="it" class="active">Sviluppato da AVLAM App. Scrivi a <a href="mailto:sviluppo.app.am@gmail.com">sviluppo.app.am@gmail.com</a></span>
+        <span data-i18n="en">Developed by AVLAM App. Write to <a href="mailto:sviluppo.app.am@gmail.com">sviluppo.app.am@gmail.com</a></span>
+      </p>
+      <p class="foot-mono">© 2026 MediCappbinet!</p>
+    </div>
+  </footer>
+</div>
+
+<script>
+  (function () {
+    var buttons = document.querySelectorAll('[data-set-lang]');
+    var elements = document.querySelectorAll('[data-i18n]');
+    function setLang(lang) {
+      elements.forEach(function (el) { el.classList.toggle('active', el.getAttribute('data-i18n') === lang); });
+      buttons.forEach(function (btn) { btn.setAttribute('aria-pressed', btn.getAttribute('data-set-lang') === lang ? 'true' : 'false'); });
+      document.documentElement.setAttribute('data-lang', lang);
+      document.documentElement.setAttribute('lang', lang);
+      try { localStorage.setItem('medicappbinet-lang', lang); } catch (e) {}
+    }
+    buttons.forEach(function (btn) { btn.addEventListener('click', function () { setLang(btn.getAttribute('data-set-lang')); }); });
+    var saved = null;
+    try { saved = localStorage.getItem('medicappbinet-lang'); } catch (e) {}
+    if (saved && ['it', 'en'].indexOf(saved) !== -1) { setLang(saved); }
+  })();
+</script>
+</body>
+</html>
